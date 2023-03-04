@@ -1,4 +1,5 @@
 export default function DashData(props) {
+	console.log(props.data);
 	const dataLength = props.data.length;
 
 	if (props.data.length !== 0) {
@@ -24,14 +25,6 @@ export default function DashData(props) {
 					</ul>
 				</div>
 			)}
-			{/* <div className="dash_date">
-				{props.data[0] && (
-					<p>Grafice actualizate la: {props.data[dataLength - 1].date_g}</p>
-				)}
-				{props.data[0] && (
-					<p>Masuratoare la: {props.data[dataLength - 1].date_m}</p>
-				)}
-			</div> */}
 		</div>
 	);
 }

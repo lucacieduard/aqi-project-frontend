@@ -1,4 +1,4 @@
-body {
+/* body {
 	max-width: 1400px;
 	margin: 0 auto;
 	padding: 2rem 0rem;
@@ -43,4 +43,26 @@ body {
 	border: 1px solid black;
 	list-style-type: none;
 	padding: 1rem 2rem;
+} */
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+#root {
+	display: flex;
+	height: 100vh;
+	width: 100%;
+}
+
+.navBar {
+	width: 250px;
+}
+
+.dashBoard {
+	width: 100%;
+
+	overflow-y: scroll;
 }

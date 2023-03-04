@@ -33,7 +33,7 @@ export default function Chart(props) {
 		});
 	}
 	return (
-		<LineChart width={420} height={250} data={props.data}>
+		<LineChart width={900} height={350} data={props.data}>
 			<Line
 				type="basis"
 				dataKey={props.parametru}
