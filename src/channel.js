@@ -15,6 +15,11 @@ const channel = {
 	514: "iZiAiR Recommendation",
 	517: "PM 2.5",
 	511: "Occupancy Rate",
+	520: "Power Consumption",
+	521: "Energy Stored",
+	104: "Location",
+	102: "Location",
+	5: "Baterry",
 };
 
 export default channel;

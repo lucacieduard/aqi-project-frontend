@@ -1,5 +1,4 @@
 export default function DashData(props) {
-	console.log(props.data);
 	const dataLength = props.data.length;
 
 	if (props.data.length !== 0) {
@@ -9,16 +8,30 @@ export default function DashData(props) {
 	return (
 		<div className="dashboard_header">
 			<h1 className="dash_title">{props.title}</h1>
-
+			<div className="sensor_producer">
+				<p className="producer">
+					Producer:
+					<a
+						href="https://www.nexelec.fr/"
+						target="
+			"
+					>
+						{props.company_name}
+					</a>
+				</p>
+			</div>
 			{props.data[0] && (
 				<div className="dash_data">
-					<p>Valori actuale:</p>
 					<ul className="dash_values">
 						{Object.entries(lastData).map(
 							([item, subject], i) =>
-								item !== "date" && (
+								item !== "date" &&
+								item !== "full_date" && (
 									<li className="dash_value" key={i}>
-										{item} -&gt; {subject} ({props.unitatiMasura[item]})
+										<span className="data_name">{item}</span>{" "}
+										<span className="data_value">
+											{subject} ({props.unitatiMasura[item]})
+										</span>
 									</li>
 								)
 						)}

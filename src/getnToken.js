@@ -1,5 +1,3 @@
-import fetchHistory from "./fetchHistory";
-
 function generateToken(callback) {
 	fetch("https://api.iotinabox.com/v1.0/oauth/token", {
 		method: "POST",
@@ -20,7 +18,8 @@ function generateToken(callback) {
 		})
 		.then((data) => {
 			localStorage.setItem("t", data.access_token);
-			callback();
+			const expirationDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
+			localStorage.setItem("e_d", expirationDate);
 		})
 		.catch((error) => {
 			console.error(error);

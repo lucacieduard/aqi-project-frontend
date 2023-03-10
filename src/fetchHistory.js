@@ -1,23 +1,19 @@
 import channel from "./channel";
-import generateToken from "./getnToken";
-import subDays from "date-fns/subDays";
 
-const fetchHistory = async (callback) => {
+// function saveData(data) {
+// 	for (let obj of data) senzorData.push(obj);
+// }
+
+const fetchHistory = async (link, timestamp) => {
 	try {
-		const response = await fetch(
-			`https://api.iotinabox.com/companies/21295/locations/28671/things/4a5ee5e0-b4bb-11ec-b352-614e8a096bf2/history?start_date=${subDays(
-				new Date(),
-				1
-			).getTime()}&end_date=${new Date().getTime()}&type=custom&units=mgpcm,dba,c,p,dbm,d,lux,hpa`,
-			{
-				headers: {
-					Authorization: `Bearer ${localStorage.getItem("t")}`,
-				},
-			}
-		);
+		const response = await fetch(link + timestamp, {
+			headers: {
+				Authorization: `Bearer ${localStorage.getItem("t")}`,
+			},
+		});
 		const data = await response.json();
-		const readings = data.readings;
 		const senzorData = [];
+		const readings = data.readings;
 
 		for (var obj of readings) {
 			var newData = {
@@ -30,6 +26,7 @@ const fetchHistory = async (callback) => {
 						? `0${new Date(obj.ts).getMinutes()}`
 						: new Date(obj.ts).getMinutes()
 				}`,
+				full_date: obj.ts,
 			};
 
 			for (var sen of obj.sensors) {
@@ -37,7 +34,11 @@ const fetchHistory = async (callback) => {
 					channel[sen.channel] !== "iZiAiR Identified Risk" &&
 					channel[sen.channel] !== "iZiAiR Air Quality Level" &&
 					channel[sen.channel] !== "iZiAiR Recommendation" &&
-					channel[sen.channel] !== "Occupancy Rate"
+					channel[sen.channel] !== "Occupancy Rate" &&
+					channel[sen.channel] !== "Location" &&
+					channel[sen.channel] !== "Energy Stored" &&
+					channel[sen.channel] !== "Baterry" &&
+					channel[sen.channel] !== "Power Consumption"
 				) {
 					if (channel[sen.channel] === "Pressure") {
 						newData = {
@@ -56,10 +57,15 @@ const fetchHistory = async (callback) => {
 			senzorData.push(newData);
 		}
 
-		return senzorData.reverse();
+		if (data.timestamp) {
+			timestamp = data.timestamp;
+			fetchHistory(link, timestamp);
+		} else {
+			console.log(senzorData);
+			return senzorData.reverse();
+		}
 	} catch (e) {
-		generateToken();
-		callback();
+		console.log(e);
 	}
 };
 
