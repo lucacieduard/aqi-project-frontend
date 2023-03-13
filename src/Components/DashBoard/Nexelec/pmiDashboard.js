@@ -2,10 +2,22 @@ import Chart from "../../Chart";
 import DashData from "../../dashboard_data";
 import { subDays } from "date-fns";
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import fetchHistory from "../../../fetchHistory";
 import unitatiMasura from "../../../unitatiMasura";
+import TimeChange from "../../TImeChange/ChangeTime";
+import LimitPM from "../../OfficialInfo/LimitPM";
 
 export default function PmiDashBoard(props) {
+	let { type } = useParams();
+	let day;
+	if (type === "day") {
+		day = 1;
+	}
+
+	if (type === "week") {
+		day = 7;
+	}
 	const [data, setData] = useState([]);
 	const [visiblePM, setVisiblePM] = useState({
 		"PM 10": true,
@@ -13,14 +25,14 @@ export default function PmiDashBoard(props) {
 		"PM 1.0": true,
 	});
 
-	async function fetchmydata() {
+	async function fetchmydata(days) {
 		props.loadingChange(true);
 
 		let myData = await fetchHistory(
 			`https://api.iotinabox.com/companies/21295/locations/28671/things/1a17b200-b4ba-11ec-876b-f5efab429af1/history?start_date=${subDays(
 				new Date(),
-				1
-			).getTime()}&end_date=${new Date().getTime()}&type=custom&units=mgpcm,dba,c,p,dbm,d,lux,hpa}`
+				days
+			).getTime()}&end_date=${new Date().getTime()}&type=custom&units=mgpcm,dba,c,p,dbm,d,lux,hpa}&timestamp= `
 		);
 		setData([...myData]);
 		props.loadingChange(false);
@@ -35,8 +47,8 @@ export default function PmiDashBoard(props) {
 	}
 
 	useEffect(() => {
-		fetchmydata();
-	}, []);
+		fetchmydata(day);
+	}, [day]);
 
 	return (
 		<>
@@ -48,6 +60,12 @@ export default function PmiDashBoard(props) {
 						unitatiMasura={unitatiMasura}
 						company_name="NEXELEC"
 					/>
+					<TimeChange
+						day={"/nexelec/pmi/day"}
+						week={"/nexelec/pmi/week"}
+						active={type}
+					/>
+					<LimitPM />
 					<div className="grafice">
 						<div className="pm-graph c_style">
 							<div className="pm-graph-info">

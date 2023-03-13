@@ -6,6 +6,7 @@ import {
 	YAxis,
 	Tooltip,
 	Legend,
+	ReferenceLine,
 } from "recharts";
 import { ResponsiveContainer } from "recharts";
 
@@ -81,7 +82,6 @@ export default function Chart(props) {
 				<CartesianGrid opacity={0.5} />
 				<XAxis
 					dataKey="date"
-					allowDataOverflow={true}
 					minTickGap={30}
 					tickSize={15}
 					tick={{ stroke: "#dddd", strokeWidth: 0.5 }}

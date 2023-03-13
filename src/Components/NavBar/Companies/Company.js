@@ -9,12 +9,11 @@ export default function Company(props) {
 	}
 	return (
 		<div className="sensor-company">
-			<div className="sensor-company-name">
+			<div className="sensor-company-name" onClick={companySensorsHide}>
 				<img
 					src={arrow}
 					alt="arrow-icon"
 					className={`arrow-icon ${view ? "rotate-arrow" : ""}`}
-					onClick={companySensorsHide}
 				/>
 				<p className="company-name">{props.company_name}</p>
 			</div>
@@ -23,7 +22,7 @@ export default function Company(props) {
 					{props.param1 && (
 						<li>
 							<Link
-								to={`${props.company_name.toLowerCase()}/${props.param1}`}
+								to={`${props.company_name.toLowerCase()}/${props.param1}/day`}
 								onClick={(e) => {
 									props.onClickSensor();
 									setView(false);
@@ -36,7 +35,7 @@ export default function Company(props) {
 					{props.param2 && (
 						<li>
 							<Link
-								to={`${props.company_name.toLowerCase()}/${props.param2}`}
+								to={`${props.company_name.toLowerCase()}/${props.param2}/day`}
 								onClick={(e) => {
 									props.onClickSensor();
 									setView(false);
@@ -49,7 +48,7 @@ export default function Company(props) {
 					{props.param3 && (
 						<li>
 							<Link
-								to={`${props.company_name.toLowerCase()}/${props.param3}`}
+								to={`${props.company_name.toLowerCase()}/${props.param3}/day`}
 								onClick={(e) => {
 									props.onClickSensor();
 									setView(false);

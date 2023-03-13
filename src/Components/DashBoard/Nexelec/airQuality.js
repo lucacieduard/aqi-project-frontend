@@ -4,8 +4,20 @@ import subDays from "date-fns/subDays";
 import Chart from "../../Chart";
 import unitatiMasura from "../../../unitatiMasura";
 import DashData from "../../dashboard_data";
+import { useParams } from "react-router-dom";
+import TimeChange from "../../TImeChange/ChangeTime";
+import LimitPM from "../../OfficialInfo/LimitPM";
 
 export default function AirQualityDashBoard(props) {
+	let { type } = useParams();
+	let day;
+	if (type === "day") {
+		day = 1;
+	}
+
+	if (type === "week") {
+		day = 7;
+	}
 	const [data, setData] = useState([]);
 	const [visiblePM, setVisiblePM] = useState({
 		"PM 10": true,
@@ -19,25 +31,24 @@ export default function AirQualityDashBoard(props) {
 		}));
 	}
 
-	async function fetchmydata() {
+	async function fetchmydata(days) {
 		props.loadingChange(true);
 
 		let myData = await fetchHistory(
 			`https://api.iotinabox.com/companies/21295/locations/28671/things/1e7e6260-b679-11ec-ae6d-092f3fe19d26/history?start_date=${subDays(
 				new Date(),
-				1
-			).getTime()}&end_date=${new Date().getTime()}&type=custom&units=wh,p,m,hpa,mgpcm,dbm,c,uuid}`
+				days
+			).getTime()}&end_date=${new Date().getTime()}&type=custom&units=wh,p,m,hpa,mgpcm,dbm,c,uuid&timestamp=`
 		);
 
 		setData([...myData]);
-		console.log(data);
 		props.loadingChange(false);
 		return myData;
 	}
 
 	useEffect(() => {
-		fetchmydata();
-	}, []);
+		fetchmydata(day);
+	}, [day]);
 
 	return (
 		<>
@@ -49,6 +60,12 @@ export default function AirQualityDashBoard(props) {
 						unitatiMasura={unitatiMasura}
 						company_name="NEXELEC"
 					/>
+					<TimeChange
+						day="/nexelec/air-quality/day"
+						week="/nexelec/air-quality/week"
+						active={type}
+					/>
+					<LimitPM />
 					<div className="grafice">
 						<div className="pm-graph c_style">
 							<div className="pm-graph-info">

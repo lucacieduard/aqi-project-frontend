@@ -4,22 +4,34 @@ import unitatiMasura from "../../../unitatiMasura";
 import fetchHistory from "../../../fetchHistory";
 import { useState, useEffect } from "react";
 import subDays from "date-fns/subDays";
+import { useParams } from "react-router-dom";
+import TimeChange from "../../TImeChange/ChangeTime";
+import LimitPM from "../../OfficialInfo/LimitPM";
 
 export default function SenseDashboard(props) {
 	const [data, setData] = useState([]);
+	let { type } = useParams();
+	let day;
+	if (type === "day") {
+		day = 1;
+	}
+
+	if (type === "week") {
+		day = 7;
+	}
 	const [visiblePM, setVisiblePM] = useState({
 		"PM 10": true,
 		"PM 2.5": true,
 		"PM 1.0": true,
 	});
 
-	async function fetchmydata() {
+	async function fetchmydata(days) {
 		props.loadingChange(true);
 		let myData = await fetchHistory(
 			`https://api.iotinabox.com/companies/21295/locations/28671/things/4a5ee5e0-b4bb-11ec-b352-614e8a096bf2/history?start_date=${subDays(
 				new Date(),
-				1
-			).getTime()}&end_date=${new Date().getTime()}&type=custom&units=mgpcm,dba,c,p,dbm,d,lux,hpa}`
+				days
+			).getTime()}&end_date=${new Date().getTime()}&type=custom&units=mgpcm,dba,c,p,dbm,d,lux,hpa&timestamp=`
 		);
 		setData([...myData]);
 		props.loadingChange(false);
@@ -35,8 +47,8 @@ export default function SenseDashboard(props) {
 	}
 
 	useEffect(() => {
-		fetchmydata();
-	}, []);
+		fetchmydata(day);
+	}, [day]);
 
 	return (
 		<>
@@ -48,6 +60,12 @@ export default function SenseDashboard(props) {
 						unitatiMasura={unitatiMasura}
 						company_name="NEXELEC"
 					/>
+					<TimeChange
+						day="/nexelec/sense/day"
+						week="/nexelec/sense/week"
+						active={type}
+					/>
+					<LimitPM />
 					<div className="grafice">
 						<div className="pm-graph c_style">
 							<div className="pm-graph-info">

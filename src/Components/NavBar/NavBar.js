@@ -17,20 +17,20 @@ export default function NavBar(props) {
 				<Link to="/">
 					<img src={logo} alt="logo" className="logo" />
 				</Link>
-				<button onClick={hideMobileMenu}>
-					<img
-						src={hamburger}
-						alt="hamburger-icon"
-						className="hamburger ham-h"
-					/>
-				</button>
+
+				<img
+					src={hamburger}
+					alt="hamburger-icon"
+					className="hamburger ham-h"
+					onClick={hideMobileMenu}
+				/>
 			</div>
 
 			<nav className={`nav-content ${mobileMenu ? "" : "hide"}`}>
 				<div className="title-list-item">
 					<img src={senzorIcon} alt="sensor-icon" className="title-icon" />
 
-					<p className="category_name">Sensors</p>
+					<p className="category_name">Senzori</p>
 				</div>
 				<Company
 					change={props.change}

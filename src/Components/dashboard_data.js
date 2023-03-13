@@ -10,7 +10,7 @@ export default function DashData(props) {
 			<h1 className="dash_title">{props.title}</h1>
 			<div className="sensor_producer">
 				<p className="producer">
-					Producer:
+					Producător:
 					<a
 						href="https://www.nexelec.fr/"
 						target="
@@ -19,6 +19,7 @@ export default function DashData(props) {
 						{props.company_name}
 					</a>
 				</p>
+				{lastData && <p>Ultima actualizare : {lastData.date}</p>}
 			</div>
 			{props.data[0] && (
 				<div className="dash_data">
@@ -28,7 +29,7 @@ export default function DashData(props) {
 								item !== "date" &&
 								item !== "full_date" && (
 									<li className="dash_value" key={i}>
-										<span className="data_name">{item}</span>{" "}
+										<span className="data_name">{item}</span>
 										<span className="data_value">
 											{subject} ({props.unitatiMasura[item]})
 										</span>
