@@ -19,7 +19,20 @@ export default function DashData(props) {
 						{props.company_name}
 					</a>
 				</p>
-				{lastData && <p>Ultima actualizare : {lastData.date}</p>}
+				{lastData && (
+					<p>
+						Ultima actualizare :
+						{` ${
+							new Date(lastData.full_date).getHours() < 10
+								? `0${new Date(lastData.full_date).getHours()}`
+								: new Date(lastData.full_date).getHours()
+						}:${
+							new Date(lastData.full_date).getMinutes() < 10
+								? `0${new Date(lastData.full_date).getMinutes()}`
+								: new Date(lastData.full_date).getMinutes()
+						}`}
+					</p>
+				)}
 			</div>
 			{props.data[0] && (
 				<div className="dash_data">

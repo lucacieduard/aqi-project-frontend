@@ -41,6 +41,8 @@ export default function AirQualityDashBoard(props) {
 			).getTime()}&end_date=${new Date().getTime()}&type=custom&units=wh,p,m,hpa,mgpcm,dbm,c,uuid&timestamp=`
 		);
 
+		console.log(myData);
+
 		setData([...myData]);
 		props.loadingChange(false);
 		return myData;
@@ -52,7 +54,12 @@ export default function AirQualityDashBoard(props) {
 
 	return (
 		<>
-			{!props.loading && (
+			{data.length === 0 && (
+				<p style={{ textAlign: "center", marginTop: "2rem" }}>
+					Nu exista date pe ultima zi
+				</p>
+			)}
+			{!props.loading && data.length !== 0 && (
 				<div className="dashboard">
 					<DashData
 						data={data}

@@ -6,7 +6,6 @@ import {
 	YAxis,
 	Tooltip,
 	Legend,
-	ReferenceLine,
 } from "recharts";
 import { ResponsiveContainer } from "recharts";
 
@@ -34,6 +33,7 @@ export default function Chart(props) {
 			id: "ID0`1",
 		});
 	}
+
 	return (
 		<ResponsiveContainer width="100%" height={250}>
 			<LineChart

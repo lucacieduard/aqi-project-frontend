@@ -52,7 +52,12 @@ export default function SenseDashboard(props) {
 
 	return (
 		<>
-			{!props.loading && (
+			{data.length === 0 && (
+				<p style={{ textAlign: "center", marginTop: "2rem" }}>
+					Nu exista date pe ultima zi
+				</p>
+			)}
+			{!props.loading && data.length !== 0 && (
 				<div className="dashboard">
 					<DashData
 						data={data}

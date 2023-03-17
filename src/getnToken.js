@@ -6,7 +6,7 @@ function generateToken(callback) {
 		},
 		body: new URLSearchParams({
 			grant_type: "refresh_token",
-			refresh_token: `${process.env.REACT_APP_REFRESH_TOKEN}`,
+			refresh_token: `${localStorage.getItem("r")}`,
 			client_id: "nexelec$public",
 		}),
 	})
@@ -18,7 +18,7 @@ function generateToken(callback) {
 		})
 		.then((data) => {
 			localStorage.setItem("t", data.access_token);
-			const expirationDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
+			const expirationDate = new Date(Date.now() + 23 * 60 * 60 * 1000);
 			localStorage.setItem("e_d", expirationDate);
 		})
 		.catch((error) => {
